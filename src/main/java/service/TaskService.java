@@ -25,9 +25,14 @@ public class TaskService {
 		}
 		return listTasks;
 	}
-	
-	public boolean addTask(String name, String projectName, String startDate, String endDate, int userId, int jobId, int statusId) {
-		return taskRepository.insertTask(name, projectName, startDate, endDate, userId, jobId, statusId) > 0;
+
+	public boolean addTask(String name, String startDate, String endDate, int userId, int jobId, int statusId) {
+		return taskRepository.insertTask(name, startDate, endDate, userId, jobId, statusId) > 0;
+	}
+
+	public boolean deleteTask(int id) {
+		int count = taskRepository.deleteById(id);
+		return count > 0;
 	}
 
 	public List<JobEntity> listJob() {
@@ -37,12 +42,13 @@ public class TaskService {
 
 	public List<UserEntity> listUser() {
 		List<UserEntity> listUser = userRepository.findAll();
-		for(UserEntity userEntity : listUser) {
+		for (UserEntity userEntity : listUser) {
 			String fullName = userEntity.getFirstName() + " " + userEntity.getLastName();
 			userEntity.setFullName(fullName);
 		}
 		return listUser;
 	}
+
 	public List<StatusEntity> listStatus() {
 		List<StatusEntity> listStatus = statusRepository.findAll();
 		return listStatus;

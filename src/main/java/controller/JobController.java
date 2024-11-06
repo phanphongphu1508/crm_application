@@ -12,7 +12,7 @@ import entity.JobEntity;
 import service.JobService;
 
 @SuppressWarnings("serial")
-@WebServlet(name = "jobController", urlPatterns = { "/jobs", "/groupwork-add" })
+@WebServlet(name = "jobController", urlPatterns = { "/jobs", "/job-add" })
 public class JobController extends HttpServlet {
 
 	private JobService jobService = new JobService();
@@ -23,7 +23,7 @@ public class JobController extends HttpServlet {
 
 		if (path.equals("/jobs")) {
 			Job(req, resp);
-		} else if (path.equals("/groupwork-add")) {
+		} else if (path.equals("/job-add")) {
 			addJob(req, resp);
 		}
 	}
