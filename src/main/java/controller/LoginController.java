@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +23,6 @@ public class LoginController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		resp.setCharacterEncoding("UTF-8");
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 		String remember = req.getParameter("remember");
@@ -32,13 +31,11 @@ public class LoginController extends HttpServlet {
 
 		String context = req.getContextPath();
 
-		if (!isSuccess) {
-			resp.sendRedirect(context + "/login");
+		if (isSuccess) {
+			resp.sendRedirect(context + "/index");
 		} else {
-			resp.sendRedirect(context + "/users");
-
+			resp.sendRedirect(context + "/login");
 		}
-		System.out.println(email + " - " + password);
 		System.out.println("Check Login: " + isSuccess);
 
 	}

@@ -2,8 +2,8 @@ package entity;
 
 public class TaskEntity {
 	private int id;
-	private String name;
-	private String projectName;
+	private String taskName;
+	private String jobName;
 	private String startDate;
 	private String endDate;
 	private String fullName;
@@ -19,20 +19,20 @@ public class TaskEntity {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getTaskName() {
+		return taskName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
-	public String getProjectName() {
-		return projectName;
+	public String getJobName() {
+		return jobName;
 	}
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
 	}
 
 	public String getStartDate() {

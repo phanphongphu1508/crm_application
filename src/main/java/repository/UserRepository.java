@@ -9,11 +9,10 @@ import config.MysqlConfig;
 import entity.UserEntity;
 
 public class UserRepository {
-	public List<UserEntity> findByEmailAndPassword(String email, String password) {
+	public UserEntity findByEmailAndPassword(String email, String password) {
+		UserEntity userEntity = null;
 
-		List<UserEntity> listUser = new ArrayList<UserEntity>();
-
-		String query = "SELECT * FROM users u JOIN roles r ON u.id = r.id WHERE u.email = ? AND u.password = ?";
+		String query = "SELECT u.id, u.firstname, u.lastname, u.email, r.name AS role_name FROM users u JOIN roles r ON u.role_id = r.id WHERE u.email = ? AND u.password = ?";
 
 		Connection connection = MysqlConfig.getConnection();
 		try {
@@ -22,16 +21,15 @@ public class UserRepository {
 			statement.setString(2, password);
 			ResultSet result = statement.executeQuery();
 			while (result.next()) {
-				UserEntity userEntity = new UserEntity();
+				userEntity = new UserEntity();
 				userEntity.setId(result.getInt("id"));
 				userEntity.setEmail(result.getString("email"));
-				userEntity.setRoleName(result.getString("name"));
-				listUser.add(userEntity);
+				userEntity.setRoleName(result.getString("role_name"));
 			}
 		} catch (Exception e) {
 			System.out.println("UsersRepository" + e.getLocalizedMessage());
 		}
-		return listUser;
+		return userEntity;
 	}
 
 	public List<UserEntity> findAll() {
@@ -56,12 +54,10 @@ public class UserRepository {
 		}
 		return listUserEntity;
 	}
-	public List<UserEntity> findUserAndTaskAndStatus() {
+
+	public List<UserEntity> findUserAndTask() {
 		List<UserEntity> listUserAndTaskAndStatus = new ArrayList<UserEntity>();
-		String query = "SELECT u.firstname, u.lastname, u.avatar, u.email, t.name AS task_name, t.start_date, t.end_date, s.name AS status_name" +
-				"FROM users u" +
-				"JOIN tasks t ON u.id = t.user_id" +
-				"JOIn status s ON s.id = t.status_id";
+		String query = "SELECT u.firstname, u.lastname, u.avatar, u.email, t.name AS task_name, t.start_date, t.end_date FROM users u JOIN tasks t ON u.id = t.user_id JOIN status s ON s.id = t.status_id";
 		Connection connection = MysqlConfig.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -74,15 +70,13 @@ public class UserRepository {
 				userEntity.setAvatar(result.getString("avatar"));
 				userEntity.setStartDate(result.getString("start_date"));
 				userEntity.setEndDate(result.getString("end_date"));
-				userEntity.setStatusName(result.getString("status_name"));
-				
+
 				listUserAndTaskAndStatus.add(userEntity);
 			}
 		} catch (Exception e) {
-			System.out.println("findUserAndTaskAndStatus " + e.getLocalizedMessage());
+			System.out.println("findUserAndTask " + e.getLocalizedMessage());
 		}
-		
-		
+
 		return listUserAndTaskAndStatus;
 	}
 
@@ -122,13 +116,12 @@ public class UserRepository {
 		}
 		return rowDeleted;
 	}
-	
 
 	/*
 	 * public int updateUser(int id, String firstname, String lastname, String
 	 * email, String password, int role) { int rowUpdate = 0; String query =
-	 * "UPDATE users SET firstname = ?, lastname = ?, email = ?, password = ?, role_id = ? WHERE id = ?";
-	 * Connection connection = MysqlConfig.getConnection(); try {
+	 * "UPDATE users SET firstname = ?, lastname = ?, email = ?, password = ?, role_id = ? WHERE id = ?"
+	 * ; Connection connection = MysqlConfig.getConnection(); try {
 	 * PreparedStatement statement = connection.prepareStatement(query);
 	 * statement.setInt(1, id); statement.setString(2, firstname);
 	 * statement.setString(3, lastname); statement.setString(4, email);

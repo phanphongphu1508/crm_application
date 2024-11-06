@@ -36,9 +36,9 @@ public class UserService {
 		return count > 0;
 	}
 
-	public List<UserEntity> listUserDetail() {
-		List<UserEntity> listUserDetail = userRepository.findUserAndTaskAndStatus();
-		return listUserDetail;
+	public List<UserEntity> userDetail() {
+		List<UserEntity> userDetail = userRepository.findUserAndTask();
+		return userDetail;
 
 	}
 

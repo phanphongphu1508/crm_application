@@ -12,7 +12,7 @@ import entity.UserEntity;
 import service.UserService;
 
 @SuppressWarnings("serial")
-@WebServlet(name = "userServlet", urlPatterns = { "/users", "/user-add", "/user-edit", "/user-details" })
+@WebServlet(name = "userServlet", urlPatterns = { "/users", "/user-add", "/user-edit", "/user-detail" })
 
 public class UserController extends HttpServlet {
 	private UserService userService = new UserService();
@@ -75,10 +75,11 @@ public class UserController extends HttpServlet {
 
 	private void userDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		List<UserEntity> listUserDetail = userService.listUserDetail();
-		req.setAttribute("listUserDetail", listUserDetail);
+		List<UserEntity> userDetail = userService.userDetail();
+		req.setAttribute("userDetail", userDetail);
 		req.getRequestDispatcher("user-details.jsp").forward(req, resp);
 	}
+	
 	/*
 	 * private void updateUser(HttpServletRequest req, HttpServletResponse resp)
 	 * throws ServletException, IOException {
@@ -88,3 +89,6 @@ public class UserController extends HttpServlet {
 	 * }
 	 */
 }
+
+
+
