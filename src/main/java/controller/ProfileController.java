@@ -55,7 +55,7 @@ public class ProfileController extends HttpServlet {
 		}
 		req.getRequestDispatcher("profile.jsp").forward(req, resp);
 	}
-
+	// Lấy thông tin task hiển thị lên giao diện profile-edit
 	public void profileEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int id = Integer.parseInt(req.getParameter("id") != null ? req.getParameter("id") : "0");
 		TaskEntity task = profileService.taskProfileEdit(id);
@@ -64,7 +64,7 @@ public class ProfileController extends HttpServlet {
 		req.setAttribute("status", status);
 		req.getRequestDispatcher("profile-edit.jsp").forward(req, resp);
 	}
-
+	// cập nhật status cho profile-edit
 	public void profileEditPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		int taskId = Integer.parseInt(req.getParameter("taskId") != null ? req.getParameter("taskId") : "0");
 		int statusId = Integer.parseInt(req.getParameter("statusId") != null ? req.getParameter("statusId") : "0");
