@@ -20,4 +20,14 @@ public class RoleService {
 		return roleRepository.deleteById(id) > 0;
 	}
 
+	// show nội dung trước đó lên trang update
+	public RoleEntity roleEditShow(int id) {
+		return roleRepository.findAllById(id);
+	}
+
+	// Lấy id để update roleName và description
+	public boolean roleEdit(int id, String roleName, String description) {
+		return roleRepository.updateRoleById(id, roleName, description) > 0;
+	}
+
 }

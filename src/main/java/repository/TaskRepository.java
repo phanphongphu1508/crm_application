@@ -162,19 +162,19 @@ public class TaskRepository {
 		return taskEntity;
 	}
 
-	public int alterTask(int taskId, int statusId) {
-		int rowAlter = 0;
+	public int updateTaskById(int taskId, int statusId) {
+		int taskUpdate = 0;
 		String query = "UPDATE tasks SET status_id = ? WHERE id = ?";
 		Connection connection = MysqlConfig.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setInt(1, statusId);
 			statement.setInt(2, taskId);
-			rowAlter = statement.executeUpdate();
+			taskUpdate = statement.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("TaskRepository - alterTask " + e.getLocalizedMessage());
 		}
-		return rowAlter;
+		return taskUpdate;
 	}
 
 }
