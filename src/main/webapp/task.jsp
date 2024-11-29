@@ -152,9 +152,8 @@
 												<td>${tasks.startDate}</td>
 												<td>${tasks.endDate}</td>
 												<td>${tasks.status.statusName}</td>
-												<td><a href="#" class="btn btn-sm btn-primary">Sửa</a>
-													<a href="/crm_application/tasks?id=${tasks.id}"
-													class="btn btn-sm btn-danger">Xóa</a>
+												<td><a href="/crm_application/task-edit?id=${tasks.id}" class="btn btn-sm btn-primary">Sửa</a>
+													<a href="/crm_application/tasks?id=${tasks.id}" class="btn btn-sm btn-danger">Xóa</a>
 											</tr>
 
 										</c:forEach>

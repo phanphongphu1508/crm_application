@@ -113,7 +113,7 @@ public class TaskRepository {
 		return tasks;
 	}
 
-	public List<TaskEntity> taskById(int id) {
+	public List<TaskEntity> taskByUserId(int id) {
 		List<TaskEntity> tasks = new ArrayList<TaskEntity>();
 		String query = "SELECT t.task_name, t.start_date, t.end_date, t.status_id FROM tasks t WHERE t.user_id = ?";
 		Connection connection = MysqlConfig.getConnection();
@@ -177,4 +177,87 @@ public class TaskRepository {
 		return taskUpdate;
 	}
 
+	// Show task update
+	public TaskEntity findById(int id) {
+		TaskEntity taskEntity = null;
+		String query = "SELECT * FROM tasks WHERE id = ?";
+		Connection connection = MysqlConfig.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				taskEntity = new TaskEntity();
+				taskEntity.setId(result.getInt("id"));
+				taskEntity.setTaskName(result.getString("task_name"));
+				taskEntity.setStartDate(result.getString("start_date"));
+				taskEntity.setEndDate(result.getString("end_date"));
+			}
+		} catch (Exception e) {
+			System.out.println("TaskRepository - findTaskAndProjectAndStatusByUserId: " + e.getLocalizedMessage());
+		}
+		return taskEntity;
+	}
+
+	public int updateById(String taskName, String startDate, String endDate, int userId, int projectId, int statusId,
+			int taskId) {
+		int rowInsert = 0;
+		String query = "UPDATE tasks SET task_name = ?, start_date = ?, end_date = ?, user_id  = ?, project_id = ?, status_id = ? WHERE id = ?";
+
+		Connection connection = MysqlConfig.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, taskName);
+			statement.setString(2, startDate);
+			statement.setString(3, endDate);
+			statement.setInt(4, userId);
+			statement.setInt(5, projectId);
+			statement.setInt(6, statusId);
+			statement.setInt(7, taskId);
+			rowInsert = statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("TaskRepository - updateTask " + e.getLocalizedMessage());
+		}
+		return rowInsert;
+	}
+
+	// project detail
+	public List<TaskEntity> findUserAndTaskAndProjectAndStatusByProjectId(int id) {
+		List<TaskEntity> projects = new ArrayList<TaskEntity>();
+		String query = "SELECT t.task_name, t.start_date, t.end_date, u.first_name, u.last_name, us.first_name AS mfirst_name, us.last_name AS mlast_name, s.status_name FROM tasks t JOIN users u ON t.user_id = u.id JOIN projects p ON t.project_id = p.id JOIN status s ON t.status_id = s.id LEFT JOIN users us ON p.manager_id = us.id WHERE t.project_id = ?";
+		try {
+			Connection connection = MysqlConfig.getConnection();
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				TaskEntity taskEntity = new TaskEntity();
+				taskEntity.setTaskName(result.getString("task_name"));
+				taskEntity.setStartDate(result.getString("start_date"));
+				taskEntity.setEndDate(result.getString("end_date"));
+
+				UserEntity userEntity = new UserEntity();
+				userEntity.setFirstName(result.getString("first_name"));
+				userEntity.setLastName(result.getString("last_name"));
+				taskEntity.setUser(userEntity);
+
+				ProjectEntity projectEntity = new ProjectEntity();
+				projectEntity.setFirstName(result.getString("mfirst_name"));
+				projectEntity.setLastName(result.getString("mlast_name"));
+				taskEntity.setProject(projectEntity);
+
+				StatusEntity statusEntity = new StatusEntity();
+				statusEntity.setStatusName(result.getString("status_name"));
+				taskEntity.setStatus(statusEntity);
+
+				projects.add(taskEntity);
+			}
+
+		} catch (Exception e) {
+			System.out.println(
+					"TaskRepository - findUserAndTaskAndProjectAndStatusByProjectId " + e.getLocalizedMessage());
+		}
+
+		return projects;
+	}
 }

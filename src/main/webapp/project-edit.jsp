@@ -124,39 +124,44 @@
 					<div class="col-md-2 col-12"></div>
 					<div class="col-md-8 col-xs-12">
 						<div class="white-box">
-							<form class="form-horizontal form-material" action="project-add"
+							<form class="form-horizontal form-material"
+								action="${pageContext.request.contextPath}/project-edit"
 								method="POST">
 								<div class="form-group">
 									<label class="col-md-12">Tên dự án</label>
 									<div class="col-md-12">
-										<input name="projectName" type="text" placeholder="Tên dự án"
+										<input name="projectName" type="text"
+											value="${project.projectName}"
 											class="form-control form-control-line">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-12">Ngày bắt đầu</label>
 									<div class="col-md-12">
-										<input name="startDate" type="text" placeholder="yyyy-MM-dd"
+										<input name="startDate" type="text"
+											value="${project.startDate}"
 											class="form-control form-control-line">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-12">Ngày kết thúc</label>
 									<div class="col-md-12">
-										<input name="endDate" type="text" placeholder="yyyy-MM-dd"
+										<input name="endDate" type="text" value="${project.endDate}"
 											class="form-control form-control-line">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-12">Quản lý dự án</label>
 									<div class="col-sm-12">
-										<select name="managerId" class="form-control form-control-line">
+										<select name="managerId"
+											class="form-control form-control-line">
 											<c:forEach items="${users}" var="user">
 												<option value="${user.id}">${user.fullName}</option>
 											</c:forEach>
 										</select>
 									</div>
 								</div>
+								<input type="hidden" name="projectId" value="${project.id}">
 								<div class="form-group">
 									<div class="col-sm-12">
 										<button type="submit" class="btn btn-success">Lưu lại</button>

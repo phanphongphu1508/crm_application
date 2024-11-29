@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import entity.RoleEntity;
 import entity.TaskEntity;
 import entity.UserEntity;
@@ -32,7 +33,7 @@ public class UserController extends HttpServlet {
 			userAdd(req, resp);
 		} else if (path.equals("/user-detail")) {
 			userDetail(req, resp);
-		} else if(path.equals("/user-edit")) {
+		} else if (path.equals("/user-edit")) {
 			userEdit(req, resp);
 		}
 	}
@@ -45,10 +46,12 @@ public class UserController extends HttpServlet {
 			userDelete(req, resp);
 		} else if (path.equals("/user-add")) {
 			userAdd(req, resp);
+		} else if (path.equals("/user-edit")) {
+			userEditPost(req, resp);
 		}
 	}
 
-	// Hiển thi tất cả nhân viên và xóa nhân viên
+	// Hiển thi tất cả nhân viên
 	private void user(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<UserEntity> users = userService.users();
 		req.setAttribute("users", users);
@@ -65,8 +68,7 @@ public class UserController extends HttpServlet {
 		String password = req.getParameter("password");
 		int role = Integer.parseInt(req.getParameter("role") != null ? req.getParameter("role") : "0");
 		userService.userAdd(firstName, lastName, email, password, role);
-		String context = req.getContextPath();
-		resp.sendRedirect(context + "/users");
+		resp.sendRedirect(req.getContextPath() + "/users");
 	}
 
 	private void userDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -82,21 +84,35 @@ public class UserController extends HttpServlet {
 		// Lấy chi tiết người dùng từ service
 		UserEntity user = userService.userDetail(id);
 		List<TaskEntity> tasks = userService.tasks(id);
-		// Nếu người dùng không tồn tại, chuyển hướng về trang danh sách người dùng
-		if (user == null) {
-			resp.sendRedirect(req.getContextPath() + "/users");
-			return;
-		} else {
-			req.setAttribute("user", user);
-			req.setAttribute("tasks", tasks);
-		}
-		// Đặt đối tượng người dùng vào request
-
+		req.setAttribute("user", user);
+		req.setAttribute("tasks", tasks);
 		// Chuyển hướng tới trang chi tiết người dùng
 		req.getRequestDispatcher("user-details.jsp").forward(req, resp);
 	}
+
+	// Show list role edit
+	// Show thông tin user trước đó để edit
 	private void userEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int id = Integer.parseInt(req.getParameter("id") != null ? req.getParameter("id") : "0");
+		UserEntity user = userService.showUserEdit(id);
+		List<RoleEntity> roles = userService.roles();
+		req.setAttribute("user", user);
+		req.setAttribute("roles", roles);
 		req.getRequestDispatcher("user-edit.jsp").forward(req, resp);
+	}
+
+	// Edit user
+	private void userEditPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
+		int userId = Integer.parseInt(req.getParameter("userId") != null ? req.getParameter("userId") : "0");
+		String firstName = req.getParameter("firstName");
+		String lastName = req.getParameter("lastName");
+		String email = req.getParameter("email");
+		String password = req.getParameter("password");
+		int role = Integer.parseInt(req.getParameter("role") != null ? req.getParameter("role") : "0");
+		userService.userEdit(firstName, lastName, email, password, role, userId);
+		resp.sendRedirect(req.getContextPath() + "/users");
 	}
 
 }

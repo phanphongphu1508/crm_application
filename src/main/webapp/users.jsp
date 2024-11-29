@@ -155,8 +155,8 @@
 												<td>${user.role.roleName}</td>
 												<td>
 												<a href="${pageContext.request.contextPath}/user-detail?id=${user.id}" class="btn btn-sm btn-info">Xem</a> 
-												<a href="/crm_application/user-edit?id=${user.id}" class="btn btn-sm btn-primary">Sửa</a>
-													<form action="/crm_application/user-delete" method="POST" style="display: inline;">
+												<a href="${pageContext.request.contextPath}/user-edit?id=${user.id}" class="btn btn-sm btn-primary">Sửa</a>
+													<form action="${pageContext.request.contextPath}/user-delete" method="POST" style="display: inline;">
 														<input type="hidden" name="id" value="${user.id}" />
 														<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');">
 															Xóa</button>

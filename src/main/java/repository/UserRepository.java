@@ -34,6 +34,28 @@ public class UserRepository {
 		return userEntity;
 	}
 
+	// show user name for project
+	public List<UserEntity> findAll() {
+		List<UserEntity> users = new ArrayList<UserEntity>();
+		String query = "SELECT u.id, u.first_name, u.last_name FROM users u";
+		try {
+			Connection connection = MysqlConfig.getConnection();
+			PreparedStatement statement = connection.prepareStatement(query);
+			ResultSet result = statement.executeQuery();
+			while (result.next()) {
+				UserEntity userEntity = new UserEntity();
+				userEntity.setId(result.getInt("id"));
+				userEntity.setFirstName(result.getString("first_name"));
+				userEntity.setLastName(result.getString("last_name"));
+				users.add(userEntity);
+			}
+		} catch (Exception e) {
+			System.out.println("UserRepository - findAll: " + e.getMessage());
+		}
+		return users;
+	}
+
+	// show user update
 	public UserEntity findUserById(int id) {
 		UserEntity userEntity = null;
 		String query = "SELECT * FROM users u  WHERE id = ?";
@@ -42,8 +64,9 @@ public class UserRepository {
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setInt(1, id);
 			ResultSet result = statement.executeQuery();
-			if (result.next()) {
+			while(result.next()) {
 				userEntity = new UserEntity();
+				userEntity.setId(result.getInt("id"));
 				userEntity.setFirstName(result.getString("first_name"));
 				userEntity.setLastName(result.getString("last_name"));
 				userEntity.setEmail(result.getString("email"));
@@ -121,5 +144,42 @@ public class UserRepository {
 			System.out.println("deleteById " + e.getLocalizedMessage());
 		}
 		return rowDeleted;
+	}
+
+	// Lấy id để update roleName và description
+	public int updateUserById(String firstName, String lastName, String email, String newPassword, int roleId,
+			int userId) {
+		int userUpdate = 0;
+		String query;
+		boolean updatePassword = true;
+		if (newPassword.isEmpty()) {
+			query = "UPDATE users SET first_name = ?, last_name = ?, email = ?, role_id  = ? WHERE id = ?";
+			updatePassword = false;
+		} else {
+			query = "UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ?, role_id  = ? WHERE id = ?";
+		}
+
+		Connection connection = MysqlConfig.getConnection();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			if (updatePassword) {
+				statement.setString(1, firstName);
+				statement.setString(2, lastName);
+				statement.setString(3, email);
+				statement.setString(4, newPassword);
+				statement.setInt(5, roleId);
+				statement.setInt(6, userId);
+			} else {
+				statement.setString(1, firstName);
+				statement.setString(2, lastName);
+				statement.setString(3, email);
+				statement.setInt(4, roleId);
+				statement.setInt(5, userId);
+			}
+			userUpdate = statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("UserRepository - updateUserById " + e.getLocalizedMessage());
+		}
+		return userUpdate;
 	}
 }

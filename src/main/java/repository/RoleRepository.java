@@ -63,7 +63,7 @@ public class RoleRepository {
 	}
 
 	// show nội dung trước đó lên trang update
-	public RoleEntity findAllById(int id) {
+	public RoleEntity findById(int id) {
 		RoleEntity roleEntity = null;
 		String query = "SELECT * FROM roles WHERE id = ?";
 		Connection connection = MysqlConfig.getConnection();
