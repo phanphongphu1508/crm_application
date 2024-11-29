@@ -137,6 +137,7 @@
                                             <th>Tên Dự Án</th>
                                             <th>Ngày Bắt Đầu</th>
                                             <th>Ngày Kết Thúc</th>
+                                            <th>Quản lý dự án</th>
                                             <th>Hành Động</th>
                                         </tr>
                                     </thead>
@@ -147,15 +148,16 @@
                                             <td>${project.projectName}</td>
                                             <td>${project.startDate}</td>
                                             <td>${project.endDate}</td>
+                                            <td>${project.user.fullName}</td>
                                             <td>
                                             	<a href="${pageContext.request.contextPath}/project-detail?id=${project.id}" class="btn btn-sm btn-info">Xem</a>
-                                                <a href="#" class="btn btn-sm btn-primary">Sửa</a>
+                                                <a href="/crm_application/project-edit?id=${project.id}"" class="btn btn-sm btn-primary">Sửa</a>
                                                 <a href="/crm_application/project?id=${project.id}" class="btn btn-sm btn-danger">Xóa</a>
                                                 
                                             </td>
                                         </tr>
                                    </c:forEach>
-                                        
+                                       
                                     </tbody>
                                 </table>
                             </div>

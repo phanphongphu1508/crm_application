@@ -40,4 +40,14 @@ public class TaskService {
 	public List<StatusEntity> status() {
 		return statusRepository.findAll();
 	}
+
+	public TaskEntity showTaskEdit(int id) {
+		return taskRepository.findById(id);
+	}
+
+	public boolean taskEdit(String taskName, String startDate, String endDate, int userId, int projectId, int statusId,
+			int taskId) {
+		return taskRepository.updateById(taskName, startDate, endDate, userId, projectId, statusId, taskId) > 0;
+	}
+
 }

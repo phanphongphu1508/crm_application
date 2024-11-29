@@ -5,6 +5,12 @@ public class ProjectEntity {
 	private String projectName;
 	private String startDate;
 	private String endDate;
+	private int managerId;
+	private String firstName;
+	private String lastName;
+	@SuppressWarnings("unused")
+	private String fullName;
+	private UserEntity user;
 
 	public int getId() {
 		return id;
@@ -38,4 +44,39 @@ public class ProjectEntity {
 		this.endDate = endDate;
 	}
 
+	public int getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(int managerId) {
+		this.managerId = managerId;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 }

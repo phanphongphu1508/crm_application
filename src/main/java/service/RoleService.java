@@ -21,8 +21,8 @@ public class RoleService {
 	}
 
 	// show nội dung trước đó lên trang update
-	public RoleEntity roleEditShow(int id) {
-		return roleRepository.findAllById(id);
+	public RoleEntity showRoleEdit(int id) {
+		return roleRepository.findById(id);
 	}
 
 	// Lấy id để update roleName và description

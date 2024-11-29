@@ -62,10 +62,10 @@ public class RolesController extends HttpServlet {
 
 	}
 
-	// show nội dung trước đó lên trang update điều kiện là id
+	// show nội dung trước đó lên trang update
 	private void roleEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int id = Integer.parseInt(req.getParameter("id") != null ? req.getParameter("id") : "0");
-		RoleEntity role = roleService.roleEditShow(id);
+		RoleEntity role = roleService.showRoleEdit(id);
 		req.setAttribute("role", role);
 		req.getRequestDispatcher("role-edit.jsp").forward(req, resp);
 	}
