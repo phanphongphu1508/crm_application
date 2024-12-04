@@ -75,7 +75,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="/crm_application/profile">Thông tin cá nhân</a></li>
-                                <li><a href="#">Thống kê công việc</a></li>
+                                <li><a href="/crm_application/profile">Thống kê công việc</a></li>
                                 <li class="divider"></li>
                                 <li><a href="/crm_application/logout">Đăng xuất</a></li>
                             </ul>

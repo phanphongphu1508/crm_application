@@ -31,7 +31,6 @@ public class LoginAndRoleFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-
 		boolean isLoggedIn = checkLoginFromCookies(req);
 
 		if (isLoggedIn) {
@@ -41,8 +40,20 @@ public class LoginAndRoleFilter implements Filter {
 			if ("ROLE_ADMIN".equals(userRole)) {
 				chain.doFilter(request, response);
 			} else if ("ROLE_MANAGER".equals(userRole)) {
-				chain.doFilter(request, response);
+				if (requestURI.endsWith("/index") || requestURI.endsWith("/profile")
+						|| requestURI.endsWith("/profile-edit") || requestURI.endsWith("/users")
+						|| requestURI.endsWith("/user-detail") || requestURI.endsWith("/user-add")
+						|| requestURI.endsWith("/user-edit") || requestURI.endsWith("/project")
+						|| requestURI.endsWith("/project-add") || requestURI.endsWith("/project-edit")
+						|| requestURI.endsWith("/project-detail") || requestURI.endsWith("/tasks")
+						|| requestURI.endsWith("/task-add") || requestURI.endsWith("/task-edit")) {
+					chain.doFilter(request, response); // Cho phép truy cập
+				} else {
+					resp.sendRedirect(req.getContextPath() + "/index"); // Trang thông báo quyền truy cập
+				}
+
 			} else if ("ROLE_USER".equals(userRole)) {
+
 				if (requestURI.endsWith("/index") || requestURI.endsWith("/profile")
 						|| requestURI.endsWith("/profile-edit")) {
 					chain.doFilter(request, response); // Cho phép truy cập
