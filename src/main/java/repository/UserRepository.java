@@ -91,7 +91,7 @@ public class UserRepository {
 				userEntity.setFirstName(result.getString("first_name"));
 				userEntity.setLastName(result.getString("last_name"));
 				userEntity.setEmail(result.getString("email"));
-				userEntity.setRoleID(result.getInt("role_id"));
+				userEntity.setRoleId(result.getInt("role_id"));
 
 				RoleEntity roleEntity = new RoleEntity();
 				roleEntity.setId(result.getInt("id"));

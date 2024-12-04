@@ -79,4 +79,9 @@ public class ProjectEntity {
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 }

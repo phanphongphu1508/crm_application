@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -84,8 +86,12 @@ public class UserController extends HttpServlet {
 		// Lấy chi tiết người dùng từ service
 		UserEntity user = userService.userDetail(id);
 		List<TaskEntity> tasks = userService.tasks(id);
+
+		Map<String, List<TaskEntity>> groupedTasks = tasks.stream()
+				.collect(Collectors.groupingBy(task -> task.getStatus().getStatusName()));
+
 		req.setAttribute("user", user);
-		req.setAttribute("tasks", tasks);
+		req.setAttribute("groupedTasks", groupedTasks);
 		// Chuyển hướng tới trang chi tiết người dùng
 		req.getRequestDispatcher("user-details.jsp").forward(req, resp);
 	}

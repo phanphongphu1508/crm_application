@@ -115,7 +115,7 @@ public class TaskRepository {
 
 	public List<TaskEntity> taskByUserId(int id) {
 		List<TaskEntity> tasks = new ArrayList<TaskEntity>();
-		String query = "SELECT t.task_name, t.start_date, t.end_date, t.status_id FROM tasks t WHERE t.user_id = ?";
+		String query = "SELECT t.task_name, t.start_date, t.end_date, s.status_name FROM tasks t JOIN status s ON t.status_id = s.id WHERE t.user_id = ?";
 		Connection connection = MysqlConfig.getConnection();
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -126,7 +126,10 @@ public class TaskRepository {
 				taskEntity.setTaskName(result.getString("task_name"));
 				taskEntity.setStartDate(result.getString("start_date"));
 				taskEntity.setEndDate(result.getString("end_date"));
-				taskEntity.setStatusID(result.getInt("status_id"));
+				
+				StatusEntity statusEntity = new StatusEntity();
+				statusEntity.setStatusName(result.getString("status_name"));
+				taskEntity.setStatus(statusEntity);
 
 				tasks.add(taskEntity);
 			}
@@ -150,7 +153,7 @@ public class TaskRepository {
 				taskEntity.setTaskName(result.getString("task_name"));
 				taskEntity.setStartDate(result.getString("start_date"));
 				taskEntity.setEndDate(result.getString("end_date"));
-				taskEntity.setStatusID(result.getInt("status_id"));
+				taskEntity.setStatusId(result.getInt("status_id"));
 				ProjectEntity projectEntity = new ProjectEntity();
 				projectEntity.setProjectName(result.getString("project_name"));
 				taskEntity.setProject(projectEntity);
@@ -223,8 +226,8 @@ public class TaskRepository {
 
 	// project detail
 	public List<TaskEntity> findUserAndTaskAndProjectAndStatusByProjectId(int id) {
-		List<TaskEntity> projects = new ArrayList<TaskEntity>();
-		String query = "SELECT t.task_name, t.start_date, t.end_date, u.first_name, u.last_name, us.first_name AS mfirst_name, us.last_name AS mlast_name, s.status_name FROM tasks t JOIN users u ON t.user_id = u.id JOIN projects p ON t.project_id = p.id JOIN status s ON t.status_id = s.id LEFT JOIN users us ON p.manager_id = us.id WHERE t.project_id = ?";
+		List<TaskEntity> tasks = new ArrayList<TaskEntity>();
+		String query = "SELECT * FROM tasks t JOIN users u ON t.user_id = u.id JOIN projects p ON t.project_id = p.id JOIN status s ON t.status_id = s.id LEFT JOIN users us ON p.manager_id = us.id WHERE t.project_id = ?";
 		try {
 			Connection connection = MysqlConfig.getConnection();
 			PreparedStatement statement = connection.prepareStatement(query);
@@ -235,6 +238,9 @@ public class TaskRepository {
 				taskEntity.setTaskName(result.getString("task_name"));
 				taskEntity.setStartDate(result.getString("start_date"));
 				taskEntity.setEndDate(result.getString("end_date"));
+				taskEntity.setUserId(result.getInt("user_id"));
+				taskEntity.setProjectId(result.getInt("project_id"));
+				taskEntity.setStatusId(result.getInt("status_id"));
 
 				UserEntity userEntity = new UserEntity();
 				userEntity.setFirstName(result.getString("first_name"));
@@ -242,15 +248,16 @@ public class TaskRepository {
 				taskEntity.setUser(userEntity);
 
 				ProjectEntity projectEntity = new ProjectEntity();
-				projectEntity.setFirstName(result.getString("mfirst_name"));
-				projectEntity.setLastName(result.getString("mlast_name"));
+				projectEntity.setFirstName(result.getString("first_name"));
+				projectEntity.setLastName(result.getString("last_name"));
 				taskEntity.setProject(projectEntity);
 
 				StatusEntity statusEntity = new StatusEntity();
+				statusEntity.setId(result.getInt("status_id"));
 				statusEntity.setStatusName(result.getString("status_name"));
 				taskEntity.setStatus(statusEntity);
 
-				projects.add(taskEntity);
+				tasks.add(taskEntity);
 			}
 
 		} catch (Exception e) {
@@ -258,6 +265,6 @@ public class TaskRepository {
 					"TaskRepository - findUserAndTaskAndProjectAndStatusByProjectId " + e.getLocalizedMessage());
 		}
 
-		return projects;
+		return tasks;
 	}
 }
