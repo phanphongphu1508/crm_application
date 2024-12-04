@@ -5,9 +5,9 @@ public class TaskEntity {
 	private String taskName;
 	private String startDate;
 	private String endDate;
-	private int userID;
-	private int projectID;
-	private int statusID;
+	private int userId;
+	private int projectId;
+	private int statusId;
 	private UserEntity user;
 	private ProjectEntity project;
 	private StatusEntity status;
@@ -44,28 +44,28 @@ public class TaskEntity {
 		this.endDate = endDate;
 	}
 
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public int getProjectID() {
-		return projectID;
+	public int getProjectId() {
+		return projectId;
 	}
 
-	public void setProjectID(int projectID) {
-		this.projectID = projectID;
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 
-	public int getStatusID() {
-		return statusID;
+	public int getStatusId() {
+		return statusId;
 	}
 
-	public void setStatusID(int statusID) {
-		this.statusID = statusID;
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
 	}
 
 	public UserEntity getUser() {
@@ -91,6 +91,5 @@ public class TaskEntity {
 	public void setStatus(StatusEntity status) {
 		this.status = status;
 	}
-	
 
 }

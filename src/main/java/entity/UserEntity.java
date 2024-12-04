@@ -6,7 +6,7 @@ public class UserEntity {
 	private String lastName;
 	private String email;
 	private String password;
-	private int roleID;
+	private int roleId;
 	private RoleEntity role;
 	private TaskEntity task;
 	private StatusEntity status;
@@ -55,12 +55,12 @@ public class UserEntity {
 		this.password = password;
 	}
 
-	public int getRoleID() {
-		return roleID;
+	public int getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleID(int roleID) {
-		this.roleID = roleID;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 	public RoleEntity getRole() {

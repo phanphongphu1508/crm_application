@@ -72,7 +72,8 @@
 								class="hidden-xs">Cybersoft</b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="/crm_application/profile">Thông tin cá nhân</a></li>
+								<li><a href="/crm_application/profile">Thông tin cá
+										nhân</a></li>
 								<li><a href="#">Thống kê công việc</a></li>
 								<li class="divider"></li>
 								<li><a href="/crm_application/logout">Đăng xuất</a></li>
@@ -89,9 +90,10 @@
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse slimscrollsidebar">
 				<ul class="nav" id="side-menu">
-					<li style="padding: 10px 0 0;"><a href="/crm_application/index"
-						class="waves-effect"><i class="fa fa-clock-o fa-fw"
-							aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a></li>
+					<li style="padding: 10px 0 0;"><a
+						href="/crm_application/index" class="waves-effect"><i
+							class="fa fa-clock-o fa-fw" aria-hidden="true"></i><span
+							class="hide-menu">Dashboard</span></a></li>
 					<li><a href="/crm_application/users" class="waves-effect"><i
 							class="fa fa-user fa-fw" aria-hidden="true"></i><span
 							class="hide-menu">Thành viên</span></a></li>
@@ -122,11 +124,13 @@
 					<div class="col-md-2 col-12"></div>
 					<div class="col-md-8 col-xs-12">
 						<div class="white-box">
-							<form class="form-horizontal form-material" action="/crm_application/task-edit" method="POST">
+							<form class="form-horizontal form-material"
+								action="/crm_application/task-edit" method="POST">
 								<div class="form-group">
 									<label class="col-md-12">Dự án</label>
 									<div class="col-md-12">
-										<select name="projectId" class="form-control form-control-line">
+										<select name="projectId"
+											class="form-control form-control-line">
 											<c:forEach items="${projects}" var="project">
 												<option value="${project.id}">${project.projectName}</option>
 											</c:forEach>
@@ -145,9 +149,9 @@
 									<div class="col-md-12">
 										<select name="userId" class="form-control form-control-line">
 											<c:forEach items="${users}" var="user">
-											<option value="${user.id}">${user.fullName}</option>
+												<option value="${user.id}">${user.fullName}</option>
 											</c:forEach>
-											
+
 										</select>
 									</div>
 								</div>
@@ -165,24 +169,25 @@
 											class="form-control form-control-line">
 									</div>
 								</div>
-								
+
 								<input type="hidden" name="taskId" value="${task.id}">
 								<div class="form-group">
 									<label class="col-md-12">Trạng thái</label>
 									<div class="col-md-12">
 										<select name="statusId" class="form-control form-control-line">
 											<c:forEach items="${status}" var="status">
-											<option value="${status.id}">${status.statusName}</option>
+												<option value="${status.id}">${status.statusName}</option>
 											</c:forEach>
-											
+
 										</select>
 									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<div class="col-sm-12">
 										<button type="submit" class="btn btn-success">Lưu lại</button>
-										<a href="/crm_application/tasks" class="btn btn-primary">Quay lại</a>
+										<a href="/crm_application/tasks" class="btn btn-primary">Quay
+											lại</a>
 									</div>
 								</div>
 							</form>

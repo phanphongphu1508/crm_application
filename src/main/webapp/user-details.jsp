@@ -47,8 +47,8 @@
 					data-target=".navbar-collapse"> <i class="fa fa-bars"></i>
 				</a>
 				<div class="top-left-part">
-					<a class="logo" href="${pageContext.request.contextPath}/index"> <b> <img
-							src="plugins/images/pixeladmin-logo.png" alt="home" />
+					<a class="logo" href="${pageContext.request.contextPath}/index">
+						<b> <img src="plugins/images/pixeladmin-logo.png" alt="home" />
 					</b> <span class="hidden-xs"> <img
 							src="plugins/images/pixeladmin-text.png" alt="home" />
 					</span>
@@ -72,7 +72,8 @@
 								class="hidden-xs">Cybersoft</b>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="${pageContext.request.contextPath}/profile">Thông tin cá nhân</a></li>
+								<li><a href="${pageContext.request.contextPath}/profile">Thông
+										tin cá nhân</a></li>
 								<li><a href="#">Thống kê công việc</a></li>
 								<li class="divider"></li>
 								<li><a href="#">Đăng xuất</a></li>
@@ -89,21 +90,22 @@
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse slimscrollsidebar">
 				<ul class="nav" id="side-menu">
-					<li style="padding: 10px 0 0;"><a href="${pageContext.request.contextPath}/index"
+					<li style="padding: 10px 0 0;"><a
+						href="${pageContext.request.contextPath}/index"
 						class="waves-effect"><i class="fa fa-clock-o fa-fw"
 							aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a></li>
-					<li><a href="${pageContext.request.contextPath}/users" class="waves-effect"><i
-							class="fa fa-user fa-fw" aria-hidden="true"></i><span
-							class="hide-menu">Thành viên</span></a></li>
-					<li><a href="${pageContext.request.contextPath}/roles" class="waves-effect"><i
-							class="fa fa-modx fa-fw" aria-hidden="true"></i><span
-							class="hide-menu">Quyền</span></a></li>
-					<li><a href="${pageContext.request.contextPath}/project" class="waves-effect"><i
-							class="fa fa-table fa-fw" aria-hidden="true"></i><span
-							class="hide-menu">Dự án</span></a></li>
-					<li><a href="${pageContext.request.contextPath}/tasks" class="waves-effect"><i
-							class="fa fa-table fa-fw" aria-hidden="true"></i><span
-							class="hide-menu">Công việc</span></a></li>
+					<li><a href="${pageContext.request.contextPath}/users"
+						class="waves-effect"><i class="fa fa-user fa-fw"
+							aria-hidden="true"></i><span class="hide-menu">Thành viên</span></a></li>
+					<li><a href="${pageContext.request.contextPath}/roles"
+						class="waves-effect"><i class="fa fa-modx fa-fw"
+							aria-hidden="true"></i><span class="hide-menu">Quyền</span></a></li>
+					<li><a href="${pageContext.request.contextPath}/project"
+						class="waves-effect"><i class="fa fa-table fa-fw"
+							aria-hidden="true"></i><span class="hide-menu">Dự án</span></a></li>
+					<li><a href="${pageContext.request.contextPath}/tasks"
+						class="waves-effect"><i class="fa fa-table fa-fw"
+							aria-hidden="true"></i><span class="hide-menu">Công việc</span></a></li>
 				</ul>
 			</div>
 		</div>
@@ -214,68 +216,31 @@
 				<!-- /.row -->
 				<!-- BEGIN DANH SÁCH CÔNG VIỆC -->
 				<h4>DANH SÁCH CÔNG VIỆC</h4>
-				<div class="row">
-					<div class="col-md-4">
-						<div class="white-box">
-							<h3 class="box-title">Chưa thực hiện</h3>
-							<div class="message-center">
-								<c:forEach var="task" items="${tasks}">
-                                            <c:if test="${task.statusID == 1}">
-                                                <a href="#">
-                                                    <div class="mail-contnet">
-                                                        <h5><c:out value="${task.taskName}" /></h5>
-                                                        <br>
-                                                        <span class="time">Bắt đầu: <c:out value="${task.startDate}" /></span>
-                                                        <br/>
-                                                        <span class="time">Kết thúc: <c:out value="${task.endDate}" /></span>
-                                                    </div>
-                                                </a>
-                                            </c:if>
-                                 </c:forEach>
+					<div class="row">
+					<c:forEach items="${groupedTasks}" var="taskEntry">
+						<div class="col-md-4">
+							<div class="white-box">
+								<h3 class="box-title">${taskEntry.key}</h3>
+								<div class="message-center">
+									<c:forEach items="${taskEntry.value}" var="task">
+										<a href="#">
+											<div class="mail-contnet">
+												<h5>
+													<c:out value="${task.taskName}" />
+												</h5>
+												<br>
+												<span class="time">Bắt đầu: ${task.startDate}</span>
+												<br/>
+												<span class="time">Kết thúc: ${task.endDate}</span>
+											</div>
+										</a>
+									</c:forEach>
+								</div>
 							</div>
 						</div>
+						</c:forEach>
 					</div>
-					<div class="col-md-4">
-						<div class="white-box">
-							<h3 class="box-title">Đang thực hiện</h3>
-							<div class="message-center">
-								<c:forEach var="task" items="${tasks}">
-                                            <c:if test="${task.statusID == 2}">
-                                                <a href="#">
-                                                    <div class="mail-contnet">
-                                                        <h5><c:out value="${task.taskName}" /></h5>
-                                                        <br>
-                                                        <span class="time">Bắt đầu: <c:out value="${task.startDate}" /></span>
-                                                        <br/>
-                                                        <span class="time">Kết thúc: <c:out value="${task.endDate}" /></span>
-                                                    </div>
-                                                </a>
-                                            </c:if>
-                                 </c:forEach>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="white-box">
-							<h3 class="box-title">Đã hoàn thành</h3>
-							<div class="message-center">
-								<c:forEach var="task" items="${tasks}">
-                                            <c:if test="${task.statusID == 3}">
-                                                <a href="#">
-                                                    <div class="mail-contnet">
-                                                        <h5><c:out value="${task.taskName}" /></h5>
-                                                        <br>
-                                                        <span class="time">Bắt đầu: <c:out value="${task.startDate}" /></span>
-                                                        <br/>
-                                                        <span class="time">Kết thúc: <c:out value="${task.endDate}" /></span>
-                                                    </div>
-                                                </a>
-                                            </c:if>
-                                 </c:forEach>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 				<!-- END DANH SÁCH CÔNG VIỆC -->
 			</div>
 			<!-- /.container-fluid -->

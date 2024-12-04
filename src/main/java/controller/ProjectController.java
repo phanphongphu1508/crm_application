@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -86,15 +88,21 @@ public class ProjectController extends HttpServlet {
 		int managerId = Integer.parseInt(req.getParameter("managerId") != null ? req.getParameter("managerId") : "0");
 		projectService.projectEdit(projectId, projectName, startDate, endDate, managerId);
 		resp.sendRedirect(req.getContextPath() + "/project");
-
 	}
 
 	// show user detail
 	public void projectDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int id = Integer.parseInt(req.getParameter("id") != null ? req.getParameter("id") : "0");
 		List<TaskEntity> tasks = projectService.projectDetail(id);
-		req.setAttribute("tasks", tasks);
-		req.getRequestDispatcher("project-detail.jsp").forward(req, resp);
+		
+		// Nhóm tasks theo user.fullName và task.status.statusName
+	    Map<String, Map<String, List<TaskEntity>>> groupedTasks = tasks.stream()
+	        .collect(Collectors.groupingBy(
+	            task -> task.getUser().getFullName(), // Nhóm theo user.fullName
+	            Collectors.groupingBy(task -> task.getStatus().getStatusName()) // Nhóm con theo statusName
+	        ));
 
+	    req.setAttribute("groupedTasks", groupedTasks);
+		req.getRequestDispatcher("project-detail.jsp").forward(req, resp);
 	}
 }
